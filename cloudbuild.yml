@@ -1,7 +1,25 @@
 steps:
-- name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
-  entrypoint: 'bash'
-  args: ['-c', 'gcloud config set app/cloud_build_timeout 1600 && gcloud app deploy']
-options:
-  logging : CLOUD_LOGGING_ONLY
-timeout: 1600s
+- name: 'gcr.io/cloud-builders/git'
+  args: ['clone', 'https://github.com/neeethumohan/gcp-depoly.git']
+
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['build','-t',  'gcr.io/${_PROJECT_ID}/${_CINAME}:${_VERSION}', '.']
+
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['push','gcr.io/${_PROJECT_ID}/${_CINAME}:${_VERSION}']
+
+# kubectl set image deployment/cicd-app-1 runimage-sha256-1=gcr.io/${_PROJECT_ID}/${_CINAME}:${_VERSION}
+- name: 'gcr.io/cloud-builders/kubectl'
+  args :
+  - 'set'
+  - 'image'
+  - 'deployment/nginx-1'
+  - 'runimage-sha256-1=gcr.io/${_PROJECT_ID}/${_CINAME}:${_VERSION}'
+  env : 
+  - 'CLOUDSDK_COMPUTE_ZONE=asia-southeast1-b'
+  - 'CLOUDSDK_CONTAINER_CLUSTER=cicd-cluster'
+
+substitutions:
+  _PROJECT_ID : gcp-devops-model
+  _CINAME : gke-image
+  _VERSION : v1.0
