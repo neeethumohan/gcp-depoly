@@ -13,7 +13,7 @@ steps:
   args :
   - 'set'
   - 'image'
-  - 'deployment/nginx-1'
+  - 'deployment/nginx-1:latest'
   - 'runimage-sha256-1=gcr.io/${_PROJECT_ID}/${_CINAME}:${_VERSION}'
   env : 
   - 'CLOUDSDK_COMPUTE_ZONE=asia-southeast1-b'
