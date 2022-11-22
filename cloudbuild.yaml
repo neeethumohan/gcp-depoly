@@ -14,7 +14,7 @@ steps:
   - 'set'
   - 'image'
   - 'deployment/cicd-test'
-  - 'nginx-1: nginx:latest=gcr.io/${_PROJECT_ID}/${_CINAME}:${_VERSION}'
+  - 'nginx-1=gcr.io/${_PROJECT_ID}/${_CINAME}:${_VERSION}'
   env : 
   - 'CLOUDSDK_COMPUTE_ZONE=asia-southeast1-b'
   - 'CLOUDSDK_CONTAINER_CLUSTER=cicd-cluster'
