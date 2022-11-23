@@ -28,7 +28,7 @@ spec:
     spec:
       containers:
       - name: hello-python
-        image: hello-python:latest
+        image: gcr.io/gcp-devops-model/gk-image:v1.0
         imagePullPolicy: Never
         ports:
-        - containerPort: 5000
+        - containerPort: 8080
