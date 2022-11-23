@@ -1,0 +1,24 @@
+steps:
+- name: 'gcr.io/cloud-builders/git'
+  args: ['clone', 'https://github.com/neeethumohan/gcp-depoly.git']
+
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['build','-t',  'gcr.io/${_PROJECT_ID}/${_CINAME}:${_VERSION}', '.']
+
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['push','gcr.io/${_PROJECT_ID}/${_CINAME}:${_VERSION}']
+
+# kubectl set image deployment/cicd-app-1 runimage-sha256-1=gcr.io/${_PROJECT_ID}/${_CINAME}:${_VERSION}
+- name: 'gcr.io/cloud-builders/gke-deploy'
+  args :
+   # deploy container image to GKE
+  - run
+  - --filename=kubernetes-resource-file
+  - --image='gcr.io/${_PROJECT_ID}/${_CINAME}:${_VERSION}'
+  - --location=southeast1-b
+  - --cluster=cicd-cluster
+
+substitutions:
+  _PROJECT_ID : gcp-devops-model
+  _CINAME : gke-image
+  _VERSION : v1.0
