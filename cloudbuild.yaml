@@ -15,7 +15,7 @@ steps:
   - run
   - --filename=deployment.yaml
   - --image=gcr.io/${_PROJECT_ID}/${_CINAME}:${_VERSION}
-  - --location=southeast1-b
+  - --location=asia-southeast1-b
   - --cluster=cicd-cluster
 
 substitutions:
