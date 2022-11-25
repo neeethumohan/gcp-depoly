@@ -22,4 +22,4 @@ steps:
 substitutions:
   _PROJECT_ID : gcp-devops-model
   _CINAME : gke-image
-  _VERSION : v2.0
+  _VERSION : v1.0
